@@ -1,13 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Qoricha Aadaa App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
-</html>
+import React, { useState } from 'react';
+
+// Data qorichaa hunda bifa qulqulluun qophaa'e
+const qorichaaData = [
+  { id: 1, maqaa: 'Haba-suudaa', faayidaa: 'Sirna Hargansaa, Utallaa, Asmii, Garaa Kaasaa fi Dhagaa Kalee bulbuluuf.', haala_fayyadamaa: 'Yoo dammaa fi bishaan ho\'aan dhugame rirma garaa ajjeesti. Waxalamtee funyaaniin urguffatamnaan utallaa gogaaf furmaata.' },
+  { id: 4, maqaa: 'Qullubbii Adii', faayidaa: 'Summii ittisuu (bofa/aqraaba), dhuunfuu balleessuu, koflaa kutuu, quufaa yeroo dheeraa.', haala_fayyadamaa: 'Yoo damma waliin makuun barasii (vitiligo) irratti dibatan ni fayyada. Foolii isheef affeelanii nyaachuu.' },
+  { id: 5, maqaa: 'Hulubataa', faayidaa: 'Quufaa fi Asmii salphisuu, aannan harmaa dubartootaaf dabaluu, bawaasiraaf qabbana.', haala_fayyadamaa: 'Bulee bishaan keessatti affeelanii dammaan makuun dhuguu. Rifeensaaf bishaan isheetiin dhiqachuu.' },
+  { id: 6, maqaa: 'Qoonxar/Talbaa', faayidaa: 'Dhukkubbii qomaa fi sombaa, fincaan dhangalaasuu, qola mataa (dandruff) balleessuu.', haala_fayyadamaa: 'Yoo waxalame garaa hidha (constipation), yoo akkuma jirutti fayyadan garaa laaffisa.' },
+  { id: 7, maqaa: 'Shunkurtaa Diimaa', faayidaa: 'Fedhii nyaataa dabaluu, koflaa kutuu, bishaan ijaa qulqulleessuu, humna saal-quunnamtii.', haala_fayyadamaa: 'Yoo soogidda waliin makuun kormatti irratti dibatan buqqisee baasa. Foolii hir\'isuuf affeelanii nyaachuu.' },
+  { id: 8, maqaa: 'Rummaanaa', faayidaa: 'Inni mi\'aawaan qomaa fi sombaaf deeggarsa kenna, inni dhangaggaa\'aan garaacha gubatuuf furmaata.', haala_fayyadamaa: 'Yoo hunda isaa (lahee keessaa waliin) nyaatan, garaacha jabeessa, nyaata bulleessuuf gargaara.' },
+  { id: 9, maqaa: 'Timiraa', faayidaa: 'Tiruu fi garaacha jabeessa, summii fi sihrii (ija-budaa) irraa nama eega, rirma garaa ajjeesa.', haala_fayyadamaa: 'Ganama otoo nyaata biraa hin nyaatin (on empty stomach) nyaachuun rirma garaa baleessa.' },
+  { id: 10, maqaa: 'Tamiirul Hindii', faayidaa: 'Ho\'a finniisaa (bile) garmalee ka\'u qabbaneessa, garaa laaffisa, dheebuu fi haqqee ittisa.', haala_fayyadamaa: 'Waqtii ho\'aa (summer) bishaan keessa bulchanii damma ykn sukkaara xiqqoo waliin dhuguu.' },
+  { id: 11, maqaa: 'Jinjiibilaa', faayidaa: 'Garaacha fi tiruu ho\'isa, nyaata bulleessa, sammuu qulqulleessuun yaadannoo jabeessa.', haala_fayyadamaa: 'Dammaa fi bishaan ho\'aa waliin makuun dhuguun koflaa qulqulleessuu fi qoma jabeessuuf hunda caala.' }
+];
+
+// Data wantoota fayyaa miidhan (Kutaa 18)
+const healthSpoilers = [
+  { titla: "Nyaata Irratti Nyaachuu", ibsa: "Otoo inni duraa hin bullaayin kan biraa nyaachuun garaacha jabeessee miidha, madda dhibeeti." },
+  { titla: "Garmalee Quufu", ibsa: "Garaa guuttatanii nyaachuun qaama ni ulfaatessa, sammuu ni doofumsa, hafuura baafachuus ni dhiphisa." },
+  { titla: "Nyaata Irratti Bishaan Dhuguu", ibsa: "Bishaan qorraa yeroo nyaataa dhuguun ho\'a nyaata bulleessuuf barbaachisu waan qabbaneessuuf, nyaata dhowwaa." },
+  { titla: "Guyyaa Rafuu", ibsa: "Hirribni guyyaa (keessummaa ganama ykn galgala booda) qaama ni dadhabsiisa, dhibee jiidha irraa dhufu fida." },
+  { titla: "Xurii Qaamaa Dhowwachuu", ibsa: "Fincaan, dhuunfuu fi xurii garaa dhowwachuun summiin gara dhiigaatti akka deebi\'u godha, kalee miidha." }
+];
+
+export function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredData = qorichaaData.filter(item =>
+    item.maqaa.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  return (
+    <div className="min-h-screen bg-emerald-50/30 p-4 font-sans antialiased">
+      {/* Header section */}
+      <header className="bg-gradient-to-r from-emerald-600 to-teal-700 p-6 rounded-3xl text-white text-center shadow-xl mb-6 max-w-xl mx-auto">
+        <h1 className="text-3xl font-extrabold tracking-tight">Ogeessa: Xibb-un-Nabawii</h1>
+        <p className="text-emerald-100 text-sm mt-2 font-medium">Galmee fi Qorannoo Qorichaa Aadaa & Kitaaba Ibnul Qayyim</p>
+      </header>
+
+      <main className="max-w-xl mx-auto space-y-6">
+        {/* Search Input */}
+        <div className="relative">
+          <input
+            type="text"
+            placeholder="Qoricha uumamaa barbaadi (fkn. Haba-suudaa)..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full p-4 pl-5 rounded-2xl border border-emerald-100 shadow-md focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-gray-800 font-medium placeholder-gray-400"
+          />
+        </div>
+
+        {/* Qoricha List */}
+        <div className="space-y-4">
+          <h2 className="text-lg font-bold text-emerald-900 px-1">Kutaa 01 / Qoricha Uumamaa</h2>
+          {filteredData.length > 0 ? (
+            filteredData.map((qoricha) => (
+              <div key={qoricha.id} className="bg-white p-5 rounded-2xl shadow-sm border border-emerald-50/60 hover:shadow-md transition-shadow">
+                <div className="flex justify-between items-center mb-2">
+                  <h3 className="text-xl font-bold text-emerald-800">{qoricha.maqaa}</h3>
+                  <span className="text-xs bg-emerald-100 text-emerald-800 px-2.5 py-1 rounded-full font-bold">Kutaa {qoricha.id}</span>
+                </div>
+                <p className="text-gray-600 text-sm mb-3 leading-relaxed"><strong>Faayidaa:</strong> {qoricha.faayidaa}</p>
+                <div className="bg-emerald-50/50 p-3.5 rounded-xl text-emerald-950 text-xs border border-emerald-100/40">
+                  <strong className="text-emerald-800">Haala Fayyadamaa:</strong> {qoricha.haala_fayyadamaa}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p className="text-center text-gray-500 text-sm py-8 bg-white rounded-2xl shadow-sm">Qorichi ati barbaadde galmee keessa hin jiru.</p>
+          )}
+        </div>
+
+        {/* Golden Rules Section (Kutaa 18) */}
+        <div className="bg-gradient-to-br from-amber-50 to-orange-50 p-5 rounded-2xl border border-amber-100 shadow-sm space-y-4">
+          <div className="border-b border-amber-200/60 pb-2">
+            <h2 className="text-lg font-bold text-amber-900">Kutaa 18 / Wantoota Fayyaa Miidhan</h2>
+            <p className="text-xs text-amber-700/80 mt-0.5">Qajeelfama Of-qussuu Ibnul Qayyim Dabarse</p>
+          </div>
+          <div className="grid gap-3.5 text-sm">
+            {healthSpoilers.map((spoiler, idx) => (
+              <div key={idx} className="bg-white/80 p-3 rounded-xl border border-amber-100/50">
+                <h4 className="font-bold text-amber-950 mb-0.5">{spoiler.titla}</h4>
+                <p className="text-gray-600 text-xs leading-relaxed">{spoiler.ibsa}</p>
+              </div>
+            ))}
+          </div>
+          <div className="text-center pt-2 border-t border-amber-200/40 text-[11px] font-semibold text-amber-800 italic">
+            "Qaama xurii irraa eeguu fi hafuura dhibee irraa eeguun, walitti qabaa fayyaati."
+          </div>
+        </div>
+
+        {/* Footer info */}
+        <footer className="text-center text-xs text-gray-400 pt-4 space-y-1">
+          <p>© 2026 Xibbunnabawi Digital Archive</p>
+          <p className="font-medium text-emerald-700/60">Oromia, Ethiopia</p>
+        </footer>
+      </main>
+    </div>
+  );
+}
